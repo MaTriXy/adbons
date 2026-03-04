@@ -8,6 +8,7 @@ from unittest import mock
 from click.testing import CliRunner
 
 from src.adbons import cli as adbons
+from src.models import Device
 
 
 class TestAdbons(TestCase):
@@ -23,7 +24,7 @@ class TestAdbons(TestCase):
     @mock.patch("src.adb.Adb.get_devices_as_list")
     @patch.object(subprocess, "run", autospec=True)
     def test_command_kill(self, mocked_run, mocked_devices_list):
-        mocked_devices_list.return_value = [["deviceId", "Test Device"]]
+        mocked_devices_list.return_value = [Device(id="deviceId", description="Test Device")]
         runner = CliRunner()
         result = runner.invoke(adbons, ["kill", "-a", "appId",
                                         "-d", "deviceId"])
@@ -35,7 +36,7 @@ class TestAdbons(TestCase):
     @mock.patch("src.adb.Adb.get_devices_as_list")
     @patch.object(subprocess, "run", autospec=True)
     def test_command_kill_all(self, mocked_run, mocked_devices_list):
-        mocked_devices_list.return_value = [["deviceId", "Test Device"]]
+        mocked_devices_list.return_value = [Device(id="deviceId", description="Test Device")]
         runner = CliRunner()
         result = runner.invoke(adbons, ["kill-all", "-d", "deviceId"])
 
@@ -46,7 +47,7 @@ class TestAdbons(TestCase):
     @mock.patch("src.adb.Adb.get_devices_as_list")
     @patch.object(subprocess, "run", autospec=True)
     def test_command_clear(self, mocked_run, mocked_devices_list):
-        mocked_devices_list.return_value = [["deviceId", "Test Device"]]
+        mocked_devices_list.return_value = [Device(id="deviceId", description="Test Device")]
         runner = CliRunner()
         result = runner.invoke(adbons, ["clear", "-a", "appId",
                                         "-d", "deviceId"])
@@ -58,7 +59,7 @@ class TestAdbons(TestCase):
     @mock.patch("src.adb.Adb.get_devices_as_list")
     @patch.object(subprocess, "run", autospec=True)
     def test_command_text(self, mocked_run, mocked_devices_list):
-        mocked_devices_list.return_value = [["deviceId", "Test Device"]]
+        mocked_devices_list.return_value = [Device(id="deviceId", description="Test Device")]
         runner = CliRunner()
         result = runner.invoke(adbons, ["text", "-d", "deviceId", "test-text"])
 
@@ -69,7 +70,7 @@ class TestAdbons(TestCase):
     @mock.patch("src.adb.Adb.get_devices_as_list")
     @patch.object(subprocess, "run", autospec=True)
     def test_command_screencap(self, mocked_run, mocked_devices_list):
-        mocked_devices_list.return_value = [["deviceId", "Test Device"]]
+        mocked_devices_list.return_value = [Device(id="deviceId", description="Test Device")]
         runner = CliRunner()
         with runner.isolated_filesystem():
             result = runner.invoke(adbons, ["screencap", "-d", "deviceId",
@@ -83,7 +84,7 @@ class TestAdbons(TestCase):
     @mock.patch("src.adb.Adb.get_devices_as_list")
     @patch.object(subprocess, "run", autospec=True)
     def test_command_date(self, mocked_run, mocked_devices_list):
-        mocked_devices_list.return_value = [["deviceId", "Test Device"]]
+        mocked_devices_list.return_value = [Device(id="deviceId", description="Test Device")]
         runner = CliRunner()
         with runner.isolated_filesystem():
             result = runner.invoke(adbons, ["date", "-d", "deviceId"])
@@ -95,7 +96,7 @@ class TestAdbons(TestCase):
     @mock.patch("src.adb.Adb.get_devices_as_list")
     @patch.object(subprocess, "run", autospec=True)
     def test_command_date_utc(self, mocked_run, mocked_devices_list):
-        mocked_devices_list.return_value = [["deviceId", "Test Device"]]
+        mocked_devices_list.return_value = [Device(id="deviceId", description="Test Device")]
         runner = CliRunner()
         with runner.isolated_filesystem():
             result = runner.invoke(adbons, ["date", "-u", "-d", "deviceId"])

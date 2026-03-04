@@ -4,10 +4,10 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "adbons"
-version = "0.4.0"
+version = "0.5.0"
 description = "A wrapper for the Android adb tool. It's just adb on steroids"
 readme = "README.md"
-requires-python = ">=3.5"
+requires-python = ">=3.7"
 keywords = ["android", "debug", "bridge", "adb"]
 license = { text = "BSD" }
 authors = [ { name = "Daniel Bälz", email = "me@dbaelz.de" } ]
@@ -19,10 +19,17 @@ classifiers = [
   "Topic :: Utilities",
   "License :: OSI Approved :: BSD License",
   "Programming Language :: Python",
-  "Programming Language :: Python :: 3.5",
-  "Programming Language :: Python :: 3 :: Only",
+  "Programming Language :: Python :: 3.7",
+  "Programming Language :: Python :: 3.8",
+  "Programming Language :: Python :: 3.9",
+  "Programming Language :: Python :: 3.10",
+  "Programming Language :: Python :: 3.11",
   "Intended Audience :: Developers",
 ]
 
+
 [project.scripts]
 adbons = "src.adbons:cli"
+
+[tool.setuptools.packages.find]
+where = ["."]

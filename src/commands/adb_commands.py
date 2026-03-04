@@ -3,6 +3,7 @@ import functools
 
 from ..adb import Adb
 from ..config import Config
+from ..models import Device
 
 
 def __get_id(option_id, section, key):
@@ -38,7 +39,8 @@ def __determine_device_id(ctx_params):
         # Get the device id from the index
         # Only return the device id when the device is attached
         try:
-            return devices[index_param][0]
+            dev = devices[index_param]
+            return dev.id if isinstance(dev, Device) else dev[0]
         except IndexError:
             raise click.ClickException(
                 "No device with the index '%s' available" % index_param)
@@ -53,16 +55,22 @@ def __determine_device_id(ctx_params):
 
     if len(devices) == 1:
         # Last resort: Return the only attached device
-        return devices[0][0]
+        dev = devices[0]
+        return dev.id if isinstance(dev, Device) else dev[0]
     else:
         raise click.ClickException("Can't determine the best matching device")
 
 
 def __is_device_id_attached(devices, device_id):
     for attached_device in devices:
-        # The device id is the first element
-        if attached_device[0] == device_id:
-            return True
+        # The device id is the `id` field of Device
+        if isinstance(attached_device, Device):
+            if attached_device.id == device_id:
+                return True
+        else:
+            # Fallback for older formats
+            if attached_device[0] == device_id:
+                return True
     return False
 
 
@@ -104,8 +112,13 @@ def list_devices():
     else:
         click.echo("Attached devices:")
         for index, item in enumerate(devices):
-            click.echo("index -> {}\tid -> {}\tdescription -> {}".format(
-                str(index), devices[index][0], devices[index][1]))
+            dev = devices[index]
+            if isinstance(dev, Device):
+                click.echo("index -> {}\tid -> {}\tdescription -> {}".format(
+                    str(index), dev.id, dev.description))
+            else:
+                click.echo("index -> {}\tid -> {}\tdescription -> {}".format(
+                    str(index), devices[index][0], devices[index][1]))
 
 
 @click.command()

@@ -1,5 +1,6 @@
 import re
 import subprocess
+from .models import Device
 
 
 class Adb:
@@ -67,9 +68,8 @@ class Adb:
             # Example: "* daemon not running. starting it now at tcp:5037 *"
             if line.startswith("*"):
                 continue
-
             entry = [item.strip() for item in line.split(" ", 1)]
-            devices.append(entry)
+            devices.append(Device(id=entry[0], description=entry[1] if len(entry) > 1 else None))
         return devices
 
     @staticmethod

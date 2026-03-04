@@ -7,7 +7,7 @@ from .commands.adb_commands import (adb_command, list_devices, kill, kill_all,
 
 
 @click.group()
-@click.version_option()
+@click.version_option(package_name="adbons")
 @click.option('-v', '--verbose', is_flag=True, help='Enables verbose mode')
 @click.pass_context
 def cli(ctx, verbose):
