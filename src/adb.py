@@ -87,7 +87,7 @@ class Adb:
 
     @staticmethod
     def input_text(device, source, text):
-        command = Adb.ADB_COMMAND_INPUT_PREFIX
+        command = list(Adb.ADB_COMMAND_INPUT_PREFIX)
         if source is not None:
             command.append(source)
         command.append("text")
@@ -96,7 +96,7 @@ class Adb:
 
     @staticmethod
     def input_keyevent(device, keyevent):
-        command = Adb.ADB_COMMAND_INPUT_PREFIX
+        command = list(Adb.ADB_COMMAND_INPUT_PREFIX)
         command.append("keyevent")
         command.append(keyevent)
         subprocess.run(Adb.__command(device, None, command))
@@ -132,7 +132,7 @@ class Adb:
 
     @staticmethod
     def reboot(device, target):
-        command = Adb.ADB_COMMAND_REBOOT
+        command = list(Adb.ADB_COMMAND_REBOOT)
         if target:
             command.append(target)
         subprocess.run(Adb.__command(device, None, command))
