@@ -91,6 +91,8 @@ class Adb:
         if source is not None:
             command.append(source)
         command.append("text")
+        if text is not None:
+            text = text.replace(' ', '%s')
         command.append(text)
         subprocess.run(Adb.__command(device, None, command))
 
